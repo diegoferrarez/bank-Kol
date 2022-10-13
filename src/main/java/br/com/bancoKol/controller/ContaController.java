@@ -1,5 +1,6 @@
 package br.com.bancoKol.controller;
 
+import br.com.bancoKol.controller.dto.Clients.Response.ClientsResponse;
 import br.com.bancoKol.controller.dto.ContaCorrente.Response.ContaResponse;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ContasService;
@@ -28,12 +29,12 @@ public class ContaController {
         return service.getAllContas();
     }
 
-    @ApiOperation("Realiza a busca do número da conta")
     @GetMapping("/{numberAgency}")
     @ResponseStatus(HttpStatus.FOUND)
-    public Mono<ContaResponse> contaById(@PathVariable String numberAccount){
-        return service.findBy(numberAccount);
+    public Flux<ContaResponse> allContasAgencia(@PathVariable String numberAgency){
+        return service.getAllContasAgencia(numberAgency);
     }
+
 }
 
 
