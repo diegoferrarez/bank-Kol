@@ -5,6 +5,7 @@ import br.com.bancoKol.controller.dto.Clients.Request.ClientsRequest;
 import br.com.bancoKol.controller.dto.Clients.Response.ClientsResponse;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ClientesService;
+import br.com.bancoKol.utils.CriptoUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,6 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("v1/clientes")
 public class ClienteController {
-
-//    private final ProducerKafka topicProducer;
 
     @Autowired
     private ClientesService service;
@@ -47,7 +46,6 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<ClientsResponse> create(@RequestBody ClientsRequest clientsRequest){
-//        topicProducer.send("Mensagem de teste enviada");
         return service.salvar(clientsRequest);
     }
 

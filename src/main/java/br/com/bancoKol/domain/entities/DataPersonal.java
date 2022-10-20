@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 @Data
 @Builder
@@ -16,10 +16,10 @@ import java.util.List;
 public class DataPersonal implements Serializable {
 
     private String name;
-    private Integer age;
+    private String age;
     private Address address;
     private String email;
     private Gender gender;
-    private List<Phone> numberPhone;
-    private List<Documents> documents;
+    private Phone numberPhone;
+    private Documents documents;
 }

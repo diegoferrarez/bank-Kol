@@ -16,12 +16,16 @@ import java.io.Serializable;
 public class ContaResponse implements Serializable {
 
     private String id;
-    private Agency agencia;
+    private String agency;
+    private String account;
+    private String stateAccount;
 
     public static ContaResponse converterContaCorrente (Clients c){
         return ContaResponse.builder()
                 .id(c.getId())
-                .agencia(c.getAgencia())
+                .agency(c.getAgency())
+                .account(c.getAccount())
+                .stateAccount(c.getStateAccount())
                 .build();
     }
 

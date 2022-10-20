@@ -18,9 +18,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ClientsRequest implements Serializable {
     private String id;
+    private String agency;
+    private String account;
     private DataPersonal dataPersonal;
     private AccountType accountType;
-    private Agency agencia;
     private ContaCorrente contaCorrente;
     private StatusAccount statusAccount;
+    private String stateAccount;
 }

@@ -22,13 +22,14 @@ public class ContaController {
     @Autowired
     private ContasService service;
 
-    @ApiOperation("Realiza a busca das contas no banco")
+    @ApiOperation("Realiza a busca das contas cadastrados no banco")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Flux<ContaResponse> AllContas(){
         return service.getAllContas();
     }
 
+    @ApiOperation("Realiza a busca das contas cadastrados em uma determinada agência")
     @GetMapping("/{numberAgency}")
     @ResponseStatus(HttpStatus.FOUND)
     public Flux<ContaResponse> allContasAgencia(@PathVariable String numberAgency){

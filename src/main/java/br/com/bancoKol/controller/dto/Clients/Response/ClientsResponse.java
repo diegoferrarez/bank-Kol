@@ -17,21 +17,24 @@ import java.io.Serializable;
 public class ClientsResponse implements Serializable {
 
     private String id;
+    private String agency;
+    private String account;
     private DataPersonal dataPersonal;
     private AccountType accountType;
-    private Agency agencia;
     private ContaCorrente contaCorrente;
     private StatusAccount statusAccount;
+    private String stateAccount;
 
     public static ClientsResponse converter(Clients c){
         return ClientsResponse.builder()
                 .id(c.getId())
+                .agency(c.getAgency())
+                .account(c.getAccount())
                 .dataPersonal(c.getDataPersonal())
                 .accountType(c.getAccountType())
-                .agencia(c.getAgencia())
                 .contaCorrente(c.getContaCorrente())
                 .statusAccount(c.getStatusAccount())
+                .stateAccount(c.getStateAccount())
                 .build();
     }
-
 }

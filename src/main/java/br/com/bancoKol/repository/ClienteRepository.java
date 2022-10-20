@@ -12,9 +12,7 @@ public interface ClienteRepository extends ReactiveMongoRepository<Clients, Stri
 
     Mono<Clients> findById(String id);
 
-    @Query("{numberAgency:'?0'}")
+    @Query("{ 'agency' : ?0 }")
     Flux<Clients> findByNumberAgency(String numberAgency);
 
-//    @Query("{$and : {numberAccount: { $in : ?0 }}, {numberAgency: { $in : ?1 }}}")
-//    Mono<Clients> findByNumberAgencyAndNumberAccount(String numberAccount, String numberAgency);
 }
