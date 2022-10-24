@@ -28,5 +28,17 @@ services:
     extra_hosts:
       - "moby:127.0.0.1"
 
-
-
+feign:
+  url:
+    credential: http://localhost:8081/v1/credentials
+#    extranet: http://localhost:8881/extranet
+#    branchorigin: http://localhost:8081/branchorigin
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+    okhttp:
+      enabled: true
+    hystrix:
+      enabled: false

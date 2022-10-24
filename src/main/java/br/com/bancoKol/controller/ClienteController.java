@@ -1,11 +1,9 @@
 package br.com.bancoKol.controller;
 
-//import br.com.bancoKol.config.Kafka.ProducerKafka;
 import br.com.bancoKol.controller.dto.Clients.Request.ClientsRequest;
 import br.com.bancoKol.controller.dto.Clients.Response.ClientsResponse;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ClientesService;
-import br.com.bancoKol.utils.CriptoUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
