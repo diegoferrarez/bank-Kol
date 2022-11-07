@@ -40,6 +40,7 @@ public class ClientesServiceImpl implements ClientesService {
         Clients clients = loadCadastro(dto);
         clients.setDataPersonal(encrypt(dto));
         clients.setStatusAccount(StatusAccount.ATIVO);
+
         return repository.save(clients).map(ClientsResponse::converter);
     }
 

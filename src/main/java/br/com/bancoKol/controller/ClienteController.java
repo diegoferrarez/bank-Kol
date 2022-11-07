@@ -4,6 +4,7 @@ import br.com.bancoKol.controller.dto.Clients.Request.ClientsRequest;
 import br.com.bancoKol.controller.dto.Clients.Response.ClientsResponse;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ClientesService;
+import br.com.bancoKol.service.impl.EnviaEmailService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,13 @@ public class ClienteController {
     @Autowired
     private ClienteRepository repository;
 
+    @Autowired
+    private final EnviaEmailService enviaEmailService;
+
     @ApiOperation(value = "Retorna todas as contas cadastradas")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Flux<ClientsResponse> getAll(){
-//        topicProducer.send("Mensagem de teste enviada");
         return service.findAll();
     }
 
@@ -44,6 +47,8 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<ClientsResponse> create(@RequestBody ClientsRequest clientsRequest){
+        enviaEmailService.enviar(clientsRequest.getDataPersonal().getEmail(), "Criação de conta",
+                "Parabéns, sua conta foi criada com sucesso");
         return service.salvar(clientsRequest);
     }
 
