@@ -5,6 +5,7 @@ import br.com.bancoKol.controller.dto.Clients.Response.ClientsResponse;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ClientesService;
 import br.com.bancoKol.service.impl.EnviaEmailService;
+import br.com.bancoKol.utils.ConstantUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +48,8 @@ public class ClienteController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<ClientsResponse> create(@RequestBody ClientsRequest clientsRequest){
-        enviaEmailService.enviar(clientsRequest.getDataPersonal().getEmail(), "Criação de conta",
-                "Parabéns, sua conta foi criada com sucesso");
+        enviaEmailService.enviar(clientsRequest.getDataPersonal().getEmail(), ConstantUtils.TITULO_CONTA_CRIADA,
+                ConstantUtils.CONTA_CRIADA);
         return service.salvar(clientsRequest);
     }
 
@@ -56,6 +57,8 @@ public class ClienteController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<ClientsResponse> update(@PathVariable String id, @RequestBody ClientsRequest request){
+        enviaEmailService.enviar(request.getDataPersonal().getEmail(), ConstantUtils.TITULO_ALTERACAO_CONTA,
+                ConstantUtils.ALTERACAO_REALIZADA);
         return service.alterar(id, request);
     }
 
@@ -63,6 +66,8 @@ public class ClienteController {
     @PatchMapping("/cancel/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<ClientsResponse> accountInactive(@PathVariable String id, @RequestBody ClientsRequest request){
+        enviaEmailService.enviar(request.getDataPersonal().getEmail(), ConstantUtils.TITULO_CANCELAMENTO_CONTA,
+                ConstantUtils.CANCELAMENTO_REALIZADO);
         return service.inactive(id, request);
     }
 

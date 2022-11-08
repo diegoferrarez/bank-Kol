@@ -1,8 +1,7 @@
 package br.com.bancoKol.controller.dto.Clients.Request;
 
-import br.com.bancoKol.domain.entities.Agency;
-import br.com.bancoKol.domain.entities.DataPersonal;
 import br.com.bancoKol.domain.entities.ContaCorrente;
+import br.com.bancoKol.domain.entities.DataPersonal;
 import br.com.bancoKol.domain.enums.AccountType;
 import br.com.bancoKol.domain.enums.StatusAccount;
 import lombok.AllArgsConstructor;

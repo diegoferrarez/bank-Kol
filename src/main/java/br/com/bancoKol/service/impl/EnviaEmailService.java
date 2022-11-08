@@ -1,6 +1,5 @@
 package br.com.bancoKol.service.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -25,7 +24,6 @@ public class EnviaEmailService {
 
         var mensagem = new SimpleMailMessage();
         mensagem.setTo(para);
-
         mensagem.setSubject(titulo);
         mensagem.setText(conteudo);
         javaMailSender.send(mensagem);
