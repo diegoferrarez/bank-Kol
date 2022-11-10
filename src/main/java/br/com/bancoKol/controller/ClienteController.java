@@ -24,12 +24,6 @@ public class ClienteController {
     @Autowired
     private ClientesService service;
 
-    @Autowired
-    private ClienteRepository repository;
-
-    @Autowired
-    private final EnviaEmailService enviaEmailService;
-
     @ApiOperation(value = "Retorna todas as contas cadastradas")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -47,18 +41,16 @@ public class ClienteController {
     @ApiOperation(value = "Criação de uma conta")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<ClientsResponse> create(@RequestBody ClientsRequest clientsRequest){
-        enviaEmailService.enviar(clientsRequest.getDataPersonal().getEmail(), ConstantUtils.TITULO_CONTA_CRIADA,
-                ConstantUtils.CONTA_CRIADA);
-        return service.salvar(clientsRequest);
+    public Mono<ClientsResponse> create(@RequestBody ClientsRequest clientsRequest,
+                                        @RequestHeader String idColaborator,
+                                        @RequestHeader String usernameColaborator){
+        return service.salvar(clientsRequest, idColaborator, usernameColaborator);
     }
 
     @ApiOperation(value="Alteração dos dados de uma conta por id.")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<ClientsResponse> update(@PathVariable String id, @RequestBody ClientsRequest request){
-        enviaEmailService.enviar(request.getDataPersonal().getEmail(), ConstantUtils.TITULO_ALTERACAO_CONTA,
-                ConstantUtils.ALTERACAO_REALIZADA);
         return service.alterar(id, request);
     }
 
@@ -66,8 +58,6 @@ public class ClienteController {
     @PatchMapping("/cancel/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<ClientsResponse> accountInactive(@PathVariable String id, @RequestBody ClientsRequest request){
-        enviaEmailService.enviar(request.getDataPersonal().getEmail(), ConstantUtils.TITULO_CANCELAMENTO_CONTA,
-                ConstantUtils.CANCELAMENTO_REALIZADO);
         return service.inactive(id, request);
     }
 

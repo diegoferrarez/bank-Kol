@@ -4,6 +4,7 @@ import br.com.bancoKol.domain.entities.*;
 import br.com.bancoKol.domain.enums.AccountType;
 import br.com.bancoKol.domain.enums.StatusAccount;
 import br.com.bancoKol.utils.CriptoUtil;
+import feign.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class ClientsResponse implements Serializable {
                 .stateAccount(c.getStateAccount())
                 .build();
     }
+
     private static DataPersonal personal(Clients c){
 
         String name = CriptoUtil.descriptografarBase64(c.getDataPersonal().getName());
@@ -70,4 +72,12 @@ public class ClientsResponse implements Serializable {
                         .build())
                 .build();
     }
+
+    public static ClientsResponse infoLog(Clients c){
+        return ClientsResponse.builder()
+                .agency(c.getAgency())
+                .account(c.getAccount())
+                .build();
+    }
 }
+

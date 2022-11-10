@@ -6,7 +6,9 @@ import br.com.bancoKol.domain.entities.*;
 import br.com.bancoKol.domain.enums.StatusAccount;
 import br.com.bancoKol.repository.ClienteRepository;
 import br.com.bancoKol.service.ClientesService;
+import br.com.bancoKol.utils.ConstantUtils;
 import br.com.bancoKol.utils.CriptoUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,19 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 
 @Service
+@Slf4j
 public class ClientesServiceImpl implements ClientesService {
 
     @Autowired
     private ClienteRepository repository;
+
+    @Autowired
+    private final EnviaEmailService enviaEmailService;
+
+    public ClientesServiceImpl(ClienteRepository repository, EnviaEmailService enviaEmailService) {
+        this.repository = repository;
+        this.enviaEmailService = enviaEmailService;
+    }
 
     @Override
     @Transactional
@@ -31,15 +42,22 @@ public class ClientesServiceImpl implements ClientesService {
     @Override
     @Transactional
     public Mono<ClientsResponse> findById(String id) {
+        log.info("Busca realizada para encontrar o documento: " + id);
         return repository.findById(id).map(ClientsResponse::converter);
     }
 
     @Override
     @Transactional
-    public Mono<ClientsResponse> salvar(ClientsRequest dto) {
+    public Mono<ClientsResponse> salvar(ClientsRequest dto, String idColaborator, String usernameColaborator) {
         Clients clients = loadCadastro(dto);
         clients.setDataPersonal(encrypt(dto));
         clients.setStatusAccount(StatusAccount.ATIVO);
+        enviaEmailService.enviar(dto.getDataPersonal().getEmail(), ConstantUtils.TITULO_CONTA_CRIADA,
+                ConstantUtils.CONTA_CRIADA);
+
+        log.info("Cadastro realizado. Identificação da conta: " + clients.getAccount());
+        log.info("Cadastro realizado. Identificação da agência: " + clients.getAgency());
+        log.info("Identificação da matrícula do funcionário: " + idColaborator + " - " + usernameColaborator);
 
         return repository.save(clients).map(ClientsResponse::converter);
     }
@@ -54,6 +72,8 @@ public class ClientesServiceImpl implements ClientesService {
             clients.setId(id);
             clients.setStatusAccount(c.getStatusAccount());
             repository.save(clients).subscribe();
+            enviaEmailService.enviar(dto.getDataPersonal().getEmail(), ConstantUtils.TITULO_ALTERACAO_CONTA,
+                    ConstantUtils.ALTERACAO_REALIZADA);
             return modelMapper.map(clients, ClientsResponse.class);
         });
     }
@@ -73,6 +93,8 @@ public class ClientesServiceImpl implements ClientesService {
                     .chequeEspecial(BigDecimal.valueOf(0))
                     .build());
             repository.save(clients).subscribe();
+            enviaEmailService.enviar(dto.getDataPersonal().getEmail(), ConstantUtils.TITULO_CANCELAMENTO_CONTA,
+                    ConstantUtils.CANCELAMENTO_REALIZADO);
             return modelMapper.map(clients, ClientsResponse.class);
         });
     }

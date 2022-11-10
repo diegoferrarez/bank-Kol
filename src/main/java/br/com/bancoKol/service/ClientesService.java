@@ -10,7 +10,7 @@ public interface ClientesService {
 
     Mono<ClientsResponse> findById(String id);
 
-    Mono<ClientsResponse> salvar(ClientsRequest request);
+    Mono<ClientsResponse> salvar(ClientsRequest request, String idColaborator, String usernameColaborator);
 
     Mono<ClientsResponse> alterar(String id, ClientsRequest request);
 
